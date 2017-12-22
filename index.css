@@ -1,3 +1,46 @@
 body{
 	background-color: #EF3340;
+    font-family: 'Caveat', cursive;
+}
+
+.header{
+	text-align: center;
+	color: white;
+	font-stretch: ultra-expanded;
+	font-size: 7.5em;
+	font-weight: lighter;
+}
+
+.links{
+	display: flex;
+	justify-content: center;
+}
+
+.link{
+	text-align: center;
+	margin-left: 5%;
+	margin-right: 5%;
+}
+
+.link a{
+	color: white;
+	text-decoration: none;
+	font-size: 3em;
+	transition: all ease 0.5s;
+}
+
+#fb a:hover{
+	color: #3B5998;
+}
+
+#insta a:hover{
+	color: #2C6A93;
+}
+
+#linkedin a:hover{
+	color: #04669A;
+}
+
+#github a:hover{
+	color: #040204;
 }
