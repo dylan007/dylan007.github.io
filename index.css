@@ -1,11 +1,13 @@
 body{
-	background-color: #EF3340;
-    font-family: 'Caveat', cursive;
+	/*background-color:  #093a3e ;*/
+    background-color: #272838;
+    font-family: 'Handlee', cursive;
 }
 
 .header{
 	text-align: center;
-	color: white;
+	/*color: #64e9ee;*/
+	color:#f25f5c;
 	font-stretch: ultra-expanded;
 	font-size: 7.5em;
 	font-weight: lighter;
@@ -30,15 +32,15 @@ body{
 }
 
 #fb a:hover{
-	color: #3B5998;
+	color: #3B5A9B;
 }
 
-#insta a:hover{
-	color: #2C6A93;
+#instagram a:hover{
+	color: #0e68ce;
 }
 
 #linkedin a:hover{
-	color: #04669A;
+	color: #0077B7;
 }
 
 #github a:hover{
