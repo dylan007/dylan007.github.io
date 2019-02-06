@@ -1,13 +1,14 @@
 body{
 	/*background-color:  #093a3e ;*/
-    background-color: #272838;
-    font-family: 'Handlee', cursive;
+    background-color: #23272a;
+    font-family: 'Bungee', cursive;
 }
 
 .header{
 	text-align: center;
-	/*color: #64e9ee;*/
-	color:#f25f5c;
+	color: #87cefa;
+	color: #7289da;
+	/*color:#f25f5c;*/
 	font-stretch: ultra-expanded;
 	font-size: 7.5em;
 	font-weight: lighter;
