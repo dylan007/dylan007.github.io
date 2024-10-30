@@ -28,4 +28,4 @@ I like to play board games and listen to music.
     - GPA: 8.25/10.0
 
 ## Resume
-You can download my latest Resume [here](assets/info/ShounakDey.pdf).
+You can download my latest Resume [here](../assets/info/ShounakDey.pdf).
