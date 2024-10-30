@@ -7,7 +7,8 @@ order: 4
 > Add Markdown syntax content to file `_tabs/about.md`{: .filepath } and it will show up on this page.
 {: .prompt-tip } -->
 
-Hi! My name is Shounak Dey. Professionaly, I am a Software Developer at Goldman Sachs. Outside of work,
+Hi! 
+My name is Shounak Dey. Professionaly, I am a Software Developer at Goldman Sachs. Outside of work,
 I like to play board games and listen to music.
 
 ## Career
