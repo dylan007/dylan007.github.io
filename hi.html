@@ -1,0 +1,120 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Handwritten Letter</title>
+    <link
+      href="https://fonts.googleapis.com/css2?family=Dancing+Script:wght@400;700&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Caveat:wght@400..700&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Playwrite+HR:wght@100..400&display=swap"
+      rel="stylesheet"
+    />
+    <style>
+      body {
+        background-color: #f9f5f0;
+        font-family: "Caveat", cursive;
+        font-size: 22px;
+        line-height: 1.8;
+        padding: 50px;
+        display: flex;
+        justify-content: center;
+        color: #2c4e9c;
+      }
+
+      .letter {
+        width: 600px;
+        background: white;
+        padding: 40px;
+        border-radius: 10px;
+        box-shadow: 3px 3px 10px rgba(0, 0, 0, 0.1);
+        border: 1px solid #ddd;
+      }
+
+      .date {
+        text-align: right;
+        font-size: 20px;
+        margin-bottom: 20px;
+      }
+
+      .signature {
+        text-align: right;
+        font-weight: bold;
+        margin-top: 30px;
+      }
+
+      .response-box {
+        width: 600px;
+        background: white;
+        border-radius: 10px;
+        border: 0px solid #ddd;
+        justify-content: center;
+        display: flex;
+        flex-direction: column;
+      }
+
+      textarea {
+        width: 100%;
+        height: 120px;
+        font-family: "Dancing Script", cursive;
+        font-size: 20px;
+        padding: 10px;
+        border: 1px solid #ccc;
+        border-radius: 5px;
+        background: #fafafa;
+        resize: none;
+      }
+
+      .send-button {
+        display: block;
+        width: 90%;
+        margin-top: 10px;
+        padding: 10px;
+        font-size: 20px;
+        font-family: "Caveat", cursive;
+        background: #f4e1c6;
+        border: 1px solid #ccc;
+        border-radius: 5px;
+        cursor: pointer;
+      }
+
+      .send-button:hover {
+        background: #e0c4a3;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="letter">
+      <div class="date">February 22, 2025</div>
+      <p>Dear Anshul,</p>
+      <p>
+        I hope this letter finds you well. It's been a only few days since we
+        last spoke, yet I miss your presence beside mine.
+      </p>
+      <p>
+        There's something special about handwritten letters that emails and
+        texts just can't replace. The thought, the time, the personal touch—they
+        all make a difference.
+      </p>
+      <p>Looking forward to hearing from you soon.</p>
+      <div class="signature">Sincerely,<br />Shounak</div>
+      <br />
+      <br />
+      <br />
+      <div class="response-box">
+        <textarea placeholder="What do you think?"></textarea>
+        <button class="send-button">Send</button>
+      </div>
+    </div>
+  </body>
+</html>
