@@ -2,12 +2,14 @@ import fs from "fs";
 import path from "path";
 import matter from "gray-matter";
 
-const POSTS_DIR = path.join(process.cwd(), "content");
+const POSTS_DIR = path.join(process.cwd(), "content", "posts");
 
 export interface PostMeta {
   title: string;
   date: string;
   slug: string;
+  tags: string[];
+  status?: "unpublished" | "published";
 }
 
 export interface PostWithNeighbors {
@@ -22,8 +24,7 @@ export function getAllPosts(): PostMeta[] {
     .filter(
       (f) =>
         f.endsWith(".mdx") &&
-        !fs.statSync(path.join(POSTS_DIR, f)).isDirectory() &&
-        f !== "about.mdx"
+        !fs.statSync(path.join(POSTS_DIR, f)).isDirectory()
     );
 
   const posts = files.map((filename) => {
@@ -35,24 +36,28 @@ export function getAllPosts(): PostMeta[] {
       title: data.title as string,
       date: data.date as string,
       slug,
+      tags: Array.isArray(data.tags) ? (data.tags as string[]) : [],
+      status: data.status as PostMeta["status"],
     };
   });
 
-  return posts.sort((a, b) => (a.date < b.date ? 1 : -1));
+  return posts.sort(
+    (a, b) => Date.parse(b.date) - Date.parse(a.date),
+  );
 }
 
 export function getPostWithNeighbors(
   slug: string,
 ): PostWithNeighbors | undefined {
-  const posts = getAllPosts(); // newest first
+  const posts = getAllPosts(); // newest publication date first
   const index = posts.findIndex((p) => p.slug === slug);
 
   if (index === -1) return undefined;
 
   return {
     meta: posts[index],
-    // "prev" = older post, "next" = newer post — adjust naming to taste
-    prev: posts[index + 1] ?? null,
-    next: posts[index - 1] ?? null,
+    // The previous publication belongs on the left; the next one belongs on the right.
+    prev: posts[index - 1] ?? null,
+    next: posts[index + 1] ?? null,
   };
 }

@@ -1,21 +1,21 @@
 import type { Metadata } from "next";
-import { Newsreader, JetBrains_Mono } from "next/font/google";
+import { IBM_Plex_Mono, Lora } from "next/font/google";
 import localFont from "next/font/local";
 import Link from "next/link";
 import "./globals.css";
 
-const serif = Newsreader({
+const serif = Lora({
   subsets: ["latin"],
   variable: "--font-serif",
   style: ["normal", "italic"],
-  weight: ["400", "500", "600"],
+  weight: ["400", "500", "600", "700"],
   display: "swap",
 });
 
-const mono = JetBrains_Mono({
+const mono = IBM_Plex_Mono({
   subsets: ["latin"],
   variable: "--font-mono",
-  weight: ["400", "500"],
+  weight: ["400", "500", "600"],
   display: "swap",
 });
 
@@ -27,10 +27,11 @@ const departure = localFont({
 
 export const metadata: Metadata = {
   title: {
-    default: "Portfolio & Blog",
-    template: "%s | Portfolio & Blog",
+    default: "Shounak Dey",
+    template: "%s — Shounak Dey",
   },
-  description: "Writing on software, systems, and engineering projects.",
+  description:
+    "Software engineer at Goldman Sachs. Writing about systems, software, and projects.",
 };
 
 export default function RootLayout({
@@ -44,15 +45,15 @@ export default function RootLayout({
       className={`${serif.variable} ${mono.variable} ${departure.variable}`}
     >
       <body className="min-h-screen flex flex-col antialiased">
-        <header className="px-6 py-4 border-b border-rule">
-          <nav className="max-w-[72ch] mx-auto flex items-center justify-between text-sm font-departure tracking-tight">
+        <header className="site-header">
+          <nav className="site-shell site-nav" aria-label="Primary navigation">
             <Link
               href="/"
-              className="font-semibold hover:opacity-80 transition-opacity"
+              className="site-brand"
             >
               shounak dey
             </Link>
-            <div className="flex gap-6">
+            <div className="site-nav-links">
               <Link
                 href="/projects"
                 className="hover:text-[var(--accent)] transition-colors"
@@ -71,8 +72,8 @@ export default function RootLayout({
 
         <main className="flex-grow">{children}</main>
 
-        <footer className="px-6 py-8 mt-16 text-xs text-ink-mute font-departure border-t border-rule">
-          <div className="max-w-[72ch] mx-auto text-right">
+        <footer className="site-footer">
+          <div className="site-shell text-right">
             © {new Date().getFullYear()} Shounak Dey
           </div>
         </footer>

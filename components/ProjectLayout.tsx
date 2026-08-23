@@ -15,10 +15,10 @@ export default function ProjectLayout({
   children,
 }: ProjectLayoutProps) {
   return (
-    <article className="max-w-[72ch] mx-auto px-6 py-12 font-departure">
+    <article className="site-shell py-12">
       <header className="mb-10 pb-6 border-b border-rule space-y-4">
         <div className="flex items-center justify-between">
-          <h1 className="text-3xl font-semibold tracking-tight text-[var(--ink)]">
+          <h1 className="text-3xl tracking-tight text-[var(--ink)]">
             {meta.title}
           </h1>
           {meta.link && meta.link !== "#" && (
@@ -26,13 +26,13 @@ export default function ProjectLayout({
               href={meta.link}
               target="_blank"
               rel="noreferrer"
-              className="text-xs px-3 py-1 rounded border border-rule bg-card hover:border-[var(--accent)] transition-colors"
+              className="font-mono text-xs px-3 py-1 rounded border border-rule bg-card hover:border-[var(--accent)] transition-colors"
             >
               External Link ↗
             </a>
           )}
         </div>
-        <p className="text-sm text-[var(--ink-body)] font-serif">
+        <p className="text-sm text-[var(--ink-body)]">
           {meta.description}
         </p>
         <div className="flex gap-2 pt-1">
@@ -49,7 +49,7 @@ export default function ProjectLayout({
 
       <div className="prose text-sm text-[var(--ink-body)]">{children}</div>
 
-      <nav className="mt-16 flex justify-between border-t border-rule pt-6 text-xs text-ink-mute">
+      <nav className="mt-16 flex justify-between border-t border-rule pt-6 font-mono text-xs text-ink-mute">
         {prev ? (
           <Link
             href={`/projects/${prev.slug}`}

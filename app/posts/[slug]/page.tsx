@@ -12,7 +12,7 @@ export default async function Page({
 
   if (!post) notFound();
 
-  const { default: Post } = await import(`@/content/${slug}.mdx`);
+  const { default: Post } = await import(`@/content/posts/${slug}.mdx`);
 
   return (
     <PostLayout meta={post.meta} prev={post.prev} next={post.next}>
