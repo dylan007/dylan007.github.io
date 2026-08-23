@@ -27,7 +27,7 @@ const departure = localFont({
 
 export const metadata: Metadata = {
   title: {
-    default: "Shounak Dey — Software Engineer",
+    default: "Shounak Dey",
     template: "%s — Shounak Dey",
   },
   description:
