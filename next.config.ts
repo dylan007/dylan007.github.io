@@ -1,11 +1,16 @@
 import type { NextConfig } from "next";
 import createMDX from "@next/mdx";
-// import remarkGfm from "remark-gfm";
+
+const prettyCodeOptions = {
+  theme: "solarized-light",
+  keepBackground: true,
+};
 
 const withMDX = createMDX({
   extension: /\.mdx?$/,
   options: {
-    remarkPlugins: ["remark-frontmatter", "remark-gfm"],
+    remarkPlugins: ["remark-frontmatter", "remark-gfm", "remark-math"],
+    rehypePlugins: ["rehype-katex", ["rehype-pretty-code", prettyCodeOptions]],
   },
 });
 

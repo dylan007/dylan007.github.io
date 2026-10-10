@@ -1,5 +1,6 @@
 import Link from "next/link";
 import type { PostMeta } from "@/lib/posts";
+import { formatPostDate } from "@/lib/format-date";
 
 interface PostLayoutProps {
   meta: PostMeta;
@@ -28,7 +29,7 @@ export default function PostLayout({
         </h1>
         <div className="flex flex-wrap items-center gap-3">
           <time className="font-mono text-xs text-ink-mute">
-            Published: {meta.date}
+            Published: {formatPostDate(meta.date)}
           </time>
           {meta.status === "unpublished" && (
             <span className="font-mono rounded border border-[var(--accent-teal)] px-2 py-0.5 text-[11px] text-[var(--accent-teal)]">
