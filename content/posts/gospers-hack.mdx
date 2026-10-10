@@ -1,0 +1,193 @@
+---
+title: "Gosper's Hack"
+date: "2026-08-19"
+tags: ["Algorithms"]
+status: "published"
+---
+I first stumbled onto this while attempting [LC - 3116](https://leetcode.com/problems/kth-smallest-amount-with-single-denomination-combination/description/).
+
+In this problem, we're given $n$ coin denominations, each having infinite coins. We need to find the $k^{th}$ smallest amount that can be generated using these
+denominations. For example, let's say you're given $[3, 5, 7]$ as the set of denominations and $k=7$. You'd be able to generate the following amounts,
+
+$$
+3, 5, 6, 7, 9, 10, \textcolor{#c25e00}{\bold{12}}, 14, 15, 18, 20, 21, ...
+$$
+
+Here, the answer is $12$. If $k$ was quite small, we could reuse the sieve algorithm to find the answer. But, let's try to optimize.
+
+We will instead solve this using [Binary Search](https://en.wikipedia.org/wiki/Binary_search). At each iteration $mid$, we count the number
+of possible amounts $\leq{mid}$. This can be found using the [Inclusion-Exclusion](https://cp-algorithms.com/combinatorics/inclusion-exclusion.html) principle.
+In this question, given a number $mid$ and the set of denominations $A$, we can express the number of valid amounts to be, 
+
+$$
+\displaystyle
+count(mid) =
+\sum (-1)^{|J|-1} \cdot
+\frac{\mathrm{mid}}{\operatorname{lcm}(J)},
+\qquad
+\left(J \subseteq A,\; J \ne \varnothing\right)
+$$
+
+To calculate this number, we need to iterate over all the possible subset combinations. Let's focus on that for this discussion.
+
+One way to iterate here is to find all possible subsets for a given size of the subset. For each subset combination, we will compute the
+value using the lcm of that subarray. First, we need a fast way to iterate over the possible subsets for a given size.
+## The Hack
+This trick is implemented quite simply as follows,
+
+```c++ showLineNumbers
+int gsp(int x){
+    int y = x & -x;
+    int c = x + y;
+    return c | (((x ^ c) >> 2) / y);
+}
+```
+
+What even does this do? 
+
+Let's take it step by step. Assuming that $x$ is a signed (8-bit for simplicity) integer, what does $-x$ represent?
+$$
+\begin{aligned}
+6 &\longrightarrow 00000110 \\
+\widetilde{6} &\longrightarrow 11111001 \\
+-6 &\longrightarrow 11111010 \\
+\end{aligned}
+$$
+
+From the [two's complement](https://en.wikipedia.org/wiki/Two%27s_complement) representation, we know that,
+$$
+-x = \widetilde{x} + 1
+$$
+
+### y
+Assume $x$ can be written in the form $P\,1\,0^n$, where $P \in \{0, 1\}^k$. Here, juxtaposition denotes bitstring concatenation: $0^n$ means $n$ trailing zeros.
+Then, 
+$$
+\begin{aligned}
+x &= P\,1\,0^n, \\ 
+\widetilde{x} &= \widetilde{P}\,0\,1^n, \\
+-x &= \widetilde{x} + 1 = \widetilde{P}\,1\,0^n, \\
+y &= x \>\& \>-x \\
+&= (P\,1\,0^n) \mathbin{\&} (\widetilde{P}\,1\,0^n) \\
+y &= 0^k\,1\,0^n
+\end{aligned}
+$$
+
+We now have the least significant set bit of $x$ stored in $y$. 
+
+### c
+Let's expand the definition of $x$ to help us compute the next value $c$. Let's assume that $P$ can be written as follows,
+$$
+\begin{aligned}
+P &= B\,0\,1^{k_1}, \\
+B &\in \{0, 1\}^{k_2}, \\
+k &= k_1 + k_2 + 1
+\end{aligned}
+$$
+
+We can now build $c$ as follows,
+
+$$
+\begin{aligned}
+\begin{array}{c|c:c}
+    x&B\,0\,1^{k_1}\,&1\,0^n \\
+    y&\,0^k\,&1\,0^n \\
+    \hline
+    c = x + y &B\,1\,0^{k_1}&0\,0^n
+    
+\end{array}
+\end{aligned}
+$$
+
+Adding $y$ back to $x$ has rippled up the $1$ to the first $0$ left of least significant set bit in $x$. 
+### Computing the value
+Let's move to the next step, where we compute $x \oplus c$. 
+$$
+\begin{aligned}
+\begin{array}{cc:c:c:c}
+x\,&=&B&0&1^{k_1}\,1\,0^n \\
+c\,&=&B&1&0^{k_1}\,0\,0^n \\
+\hline 
+x \oplus c \,&=&0^{k_2}&1&1^{k_1}\,1\,0^n \\
+\end{array}
+\end{aligned}
+$$
+
+We then right shift this value by $2$ bits, and then divide it by $y$. But, we know that $y$ is already a power of
+$2$. So the second half of line 4 (let's call it $v$ for simplicity) results in this,
+$$
+\begin{aligned}
+v &= \frac{(x \oplus c) \gg 2}{y} \\
+&= (x \oplus c) \gg (n + 2) \\
+&= (0^{k_2}\,1\,1^{k_1}\,1\,0^n) \gg (n+2) \\
+&= 0^n\,0^{k_2+2}\,1\,1^{k_1-1}
+\end{aligned}
+$$
+
+The right shift operation shifts the trailing $n$ zeros to the front and we lose two of our ones at the end. 
+
+The last operation is to compute the binary OR between $v$ and $c$. That gives us the following,
+$$
+\begin{aligned}
+\begin{array}{cc:c:c:c:c}
+v\,&=&0^{k_2}&0&0^{n+1}&1^{k_1}\\
+c\,&=&B&1&0^{n+1}&0^{k_1} \\
+\hline 
+r = v \lor c \,&=&B&1&0^{n+1}&1^{k_1} \\
+\end{array}
+\end{aligned}
+$$
+
+Let's compare $r$ and $x$. 
+$$
+\begin{aligned}
+r &= B\,1\,0^{n+1}\,1^{k_1} \\
+x &= B\,0\,1^{k_1 + 1}\,0^n 
+\end{aligned}
+$$
+
+We can see here that the value $r$ has the exact same number of set bits as $x$. We can also see that sequence after B in $r$ is lexicographically 
+next in line after the same sequence in $x$. This means that $r$ is the next largest value using the same number of bits. 
+Let's run a simple sequence to see what that would look like. If we were to find the sequences of size $3$, we would start with $2^3 - 1 = 7$.
+$$
+\def\arraystretch{1.5}
+\begin{array}{lr}
+000111 \mapsto& 7\\  
+001011 \mapsto& 11\\ 
+001101 \mapsto& 13\\
+001110 \mapsto& 14\\
+010011 \mapsto& 19\\
+010101 \mapsto& 21\\
+010110 \mapsto& 22\\
+011001 \mapsto& 25\\
+\vdots & \vdots
+\end{array}
+$$
+
+### Optimization
+
+We can optimize this slightly and modernize it according to the latest C++ semantics. 
+
+```c++ showLineNumbers
+uint64_t gsp(uint64_t x){
+    uint64_t c = x + (x & -x);
+    return c | ((x ^ c) >> (__builtin_ctzll(x) + 2));
+}
+```
+
+The values $x$ and $y$ have the same number of trailing zeros. Because $y = x\,\& -x$ is a power of $2$, dividing by it is equivalent to a right shift.
+
+Modern compilers can often make this substitution automatically. Once they recognize $y$ as a power of $2$, optimizations such as ValueTracking and InstructionCombine can rewrite the classical division `((x ^ c) >> 2) / y` as `(x ^ c) >> (2 + __builtin_ctz(x))`.
+
+That rewrite, however, depends on the compiler and its optimization settings, such as `-O3`. Writing the shift explicitly on line $3$ makes the intended operation clear and ensures the optimized version is selected regardless of those settings.
+
+
+This was proposed by [William Gosper](https://en.wikipedia.org/wiki/Bill_Gosper), hence the name _Gosper's Hack_.
+
+## References
+
+1. **HAKMEM (Item 175)** — Beeler, M., Gosper, R. W., & Schroeppel, R. (1972). *HAKMEM*, MIT AI Lab Memo AIM-239. [MIT AI Lab Archive](http://www.inwap.com/pdp10/hbaker/hakmem/hakmem.html)
+2. **Bit Twiddling Hacks** — Sean Eron Anderson, Stanford University. [Generating the next higher number with the same number of set bits](https://graphics.stanford.edu/~seander/bithacks.html#NextBitPermutation)
+3. **LeetCode 3116** — [Kth Smallest Amount With Single Denomination Combination](https://leetcode.com/problems/kth-smallest-amount-with-single-denomination-combination/)
+4. **LLVM Source** — [ValueTracking (`isKnownToBeAPowerOfTwo`)](https://github.com/llvm/llvm-project/blob/main/llvm/lib/Analysis/ValueTracking.cpp) and [InstCombine (`InstCombineMulDivRem`)](https://github.com/llvm/llvm-project/blob/main/llvm/lib/Transforms/InstCombine/InstCombineMulDivRem.cpp)
+5. **CP-Algorithms** — [Inclusion-Exclusion Principle](https://cp-algorithms.com/combinatorics/inclusion-exclusion.html)

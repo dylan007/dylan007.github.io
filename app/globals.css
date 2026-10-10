@@ -1,4 +1,5 @@
 @import "tailwindcss";
+@import "katex/dist/katex.min.css";
 
 :root {
   color-scheme: light;
@@ -9,7 +10,7 @@
   --ink-mute: #78756c;
   --rule: #e2ded4;
   /* Triadic accents: burnt orange, teal, and violet. */
-  --accent: #c25e00;
+  --accent: #f04a00;
   --accent-teal: #007c78;
   --accent-violet: #7651a8;
 
@@ -46,6 +47,7 @@ h6 {
   font-weight: 400;
   letter-spacing: -0.03em;
   line-height: 1.15;
+  color: var(--accent);
 }
 
 h1 {
@@ -181,7 +183,7 @@ a:hover {
   font-weight: 400;
   margin-top: 1.5em;
   margin-bottom: 0.5em;
-  color: var(--ink);
+  color: var(--accent);
 }
 
 .prose h1 {
@@ -294,6 +296,63 @@ a:hover {
   color: var(--accent-teal);
   font-family: var(--mono);
   text-decoration: none;
+}
+
+.prose [data-line-numbers] {
+  counter-reset: line;
+}
+
+.prose [data-line-numbers] > [data-line] {
+  padding-left: 3.5rem;
+  position: relative;
+}
+
+.prose [data-line-numbers] > [data-line]::before {
+  counter-increment: line;
+  content: counter(line);
+  position: absolute;
+  left: 0;
+  width: 2.5rem;
+  padding-right: 0.75rem;
+  border-right: 1px solid rgb(255 255 255 / 0.12);
+  color: var(--ink-mute);
+  text-align: right;
+  user-select: none;
+}
+
+/* Keep inline equations subordinate to the surrounding reading text. */
+.prose .katex-display {
+  max-width: 100%;
+  margin: 1.5rem 0;
+  padding: 0.35rem 0;
+  overflow-x: auto;
+  overflow-y: hidden;
+  line-height: 1.2;
+}
+
+.prose .katex-display > .katex {
+  line-height: 1.2;
+}
+
+/* Prevent Tailwind Preflight border-color overrides from rendering KaTeX math elements (e.g., fraction lines) in light grey */
+.prose .katex *,
+.prose .katex ::before,
+.prose .katex ::after {
+  border-color: currentColor;
+}
+
+/* Fix Safari sub-pixel rendering rounding thin borders (fraction lines, hlines, etc.) down to 0px */
+.prose .katex .katex-hline,
+.prose .katex .katex-hdashline,
+.prose .katex .underline-line,
+.prose .katex .overline-line,
+.prose .katex .frac-line {
+  border-bottom-width: 1px !important;
+}
+
+.prose .katex .katex-hline,
+.prose .katex .katex-hdashline {
+  color: var(--accent);
 }
 
 .prose table {

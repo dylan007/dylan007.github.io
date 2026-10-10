@@ -3,6 +3,7 @@
 import Link from "next/link";
 import { useSearchParams } from "next/navigation";
 import type { PostMeta } from "@/lib/posts";
+import { formatPostDate } from "@/lib/format-date";
 
 export default function PostFilters({ posts }: { posts: PostMeta[] }) {
   const searchParams = useSearchParams();
@@ -74,7 +75,7 @@ export default function PostFilters({ posts }: { posts: PostMeta[] }) {
                 )}
               </div>
               <time className="font-mono text-xs text-ink-mute whitespace-nowrap">
-                {post.date}
+                {formatPostDate(post.date)}
               </time>
             </div>
           ))}
