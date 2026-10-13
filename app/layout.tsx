@@ -66,6 +66,12 @@ export default function RootLayout({
               >
                 blog
               </Link>
+              <Link
+                href="/guitar"
+                className="hover:text-[var(--accent)] transition-colors"
+              >
+                guitar
+              </Link>
             </div>
           </nav>
         </header>
